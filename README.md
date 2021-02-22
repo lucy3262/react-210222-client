@@ -1,70 +1,20 @@
-# Getting Started with Create React App
+### day01
+  1.熟悉项目功能
+  2.搭建开发环境(脚手架，antd,自定义主题，按需引入antd样式)
+  3.搭建路由
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  github清除默认样式的库 reset.css  minireset.css
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `yarn start`
+  ###  登录流程
+  登录页面/login点击登录后，获取用户信息，存入redux，后面的页面都需要验证登录成功，拿到token和用户信息才能进入后面的页面，这中间就用一个高阶组件，check_login函数来验证用户是否登录，验证成功后才能进入admin路由，后面所有的页面路由都写在admin这个页面，在admin页面需要使用用户信息。
+  用户一刷新，redux里的数据会没有，这时候也就是redux存数据的时候要多存一道session,
+  在login页面的时候，去获取session里的信息，有的话拿token直接去请求后端，成功的话就直接登录系统。
+  没有的话，在登录页面停留等登录。
+  
+  在admin页面刷新的话，也是去session里拿信息（这一层逻辑可以做在check_login里），有的话直接存到redux里，admin这层里的路由都是可以直接在redux里拿信息的
+  // 上面这个可以做在state里，
+  因为刷新页面，state会首先初始化，可以直接写在login_ruducer里，也就是在login页面刷新也是可以判断，那么在login页面也是直接拿state的数据做判断
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  是否登录这个逻辑就是直接做在state上，在login和admin中间在一层是否登录的判断，check_login进行跳转
